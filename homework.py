@@ -1,3 +1,4 @@
+from xmlrpc.client import Boolean
 import xlrd3 as xlrd
 import random
 
@@ -6,7 +7,7 @@ PATH = r'L:\python\python_project\life_huck\1_renaming\5_exel_file\exel\rus_eng.
 
 def game():
     '''
-    Основная
+    Основной модуль игры, который вводит цикл
     '''
     print('Добро пожаловать в перевод слов')
     print('На правильный ответ я даю тебе 3 попытки\nУдачи!')
@@ -38,23 +39,28 @@ def game():
             break
 
 
-def create_dict(file):
-
+def create_dict(file: str):
+    '''
+    1. Парсит exel файл
+    2. Проверяет условие
+    '''
     rus = []
     eng = []
     book = xlrd.open_workbook(file)
     sh = book.sheet_by_index(0)
     for row_number in range(sh.nrows):
         row = sh.row_values(row_number)
-        right_row = check(row)
-        if right_row:
+        if check(row):
             continue
         rus.append(row[0])
         eng.append(row[1])
     return {i: j for i, j in zip(rus, eng)}
 
 
-def check(row):
+def check(row: list) -> Boolean:
+    '''
+    Проверяет первую ячейку в строке начинается ли она с 'rus'
+    '''
     return row[0].startswith('r')
 
 
