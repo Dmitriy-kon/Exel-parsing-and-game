@@ -39,6 +39,7 @@ def game():
 
 
 def create_dict(file):
+
     rus = []
     eng = []
     book = xlrd.open_workbook(file)

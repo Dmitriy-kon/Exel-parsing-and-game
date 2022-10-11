@@ -17,6 +17,7 @@ def do(file: str):
     Исполняемая функция
     1. Парсит exel файл
     2. Проверяет строку
+    3. Добавляем названия и цены в списки
     '''
     articles = []
     expenses = []
@@ -24,26 +25,30 @@ def do(file: str):
     sh = book.sheet_by_index(0)
     for row_number in range(sh.nrows):
         row = sh.row_values(row_number)  # Возвращает срез значений ячеек в заданой строке
-        right_row = check(row)          #
-        if right_row is None:
+        right_row = check(row)           # Проверка списка на условие
+        if right_row is None:            # Если строка таблицы не прошла условие, то continue
             continue
-        articles.append(right_row[0])
+        articles.append(right_row[0])    #
         expenses.append(right_row[1])
     print_result(articles, expenses)
 
 
 def check(row: list):
+    '''
+    Проверка списка содержит итого и число, то список возвращается иначе none
+    '''
     if row[1]:
         if row[0] != 'Итого:' and row[1].split()[0].isdigit():
             return row
 
 
-def print_result(articles, expenses):
-    expenses = [int(i.split()[0]) for i in expenses]
+def print_result(articles: list, expenses: list):
+    '''
+    Принт результата
+    '''
+    expenses = [int(i.split()[0]) for i in expenses]    # Превращение строки вида '5000 руб' в int 5000
     index_min = get_extreme_key(expenses, min)
     index_max = get_extreme_key(expenses, max)
-    # index_min = get_min_max_index(expenses, min)
-    # index_max = get_min_max_index(expenses, max)
     print(
         f'Минимальный расход\n{articles[index_min]}\n{expenses[index_min]} рублей')
     print('-'*12)
@@ -51,7 +56,10 @@ def print_result(articles, expenses):
         f'Максимальный расход\n{articles[index_max]}\n{expenses[index_max]} рублей')
 
 
-def get_extreme_key(array, compare):
+def get_extreme_key(array: list, compare: str) -> int:
+    '''
+    Сравнивает значения согласно compare (минимальный или максимальный) и выводит индекс
+    '''
     extreme_index = 0
     extreme = array[extreme_index]
     i = 1
@@ -63,13 +71,10 @@ def get_extreme_key(array, compare):
     return extreme_index
 
 
-def get_min_max_index(array, func):
+def get_min_max_index(array, func):  # Более простой, но медленный вариант get_extreme_key
     element = func(array)
     return array.index(element)
 
 
 if __name__ == '__main__':
-    # parsing(FILE)
     do(FILE)
-    # print('Время работы функции', timeit.timeit(
-    #     "do(FILE)", setup='from __main__ import FILE, do', number=10))
