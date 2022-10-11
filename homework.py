@@ -5,10 +5,13 @@ PATH = r'L:\python\python_project\life_huck\1_renaming\5_exel_file\exel\rus_eng.
 
 
 def game():
+    '''
+    Основная
+    '''
     print('Добро пожаловать в перевод слов')
     print('На правильный ответ я даю тебе 3 попытки\nУдачи!')
     while True:
-        attempt = 3
+        attempt = 3                                 # Количество попыток
         dictionary = create_dict(PATH)
         question = get_random_word(dictionary)
         while True:

@@ -4,22 +4,27 @@ import xlrd3 as xlrd
 FILE = r'exel\ex_file.xlsx'
 
 
-def parsing(file):
-    book = xlrd.open_workbook(file)
-    sh = book.sheet_by_index(0)
-    for row_number in range(sh.nrows):
-        for col_number in range(sh.ncols):
-            print(sh.cell_value(rowx=row_number, colx=col_number))
+def parsing(file: str):
+    book = xlrd.open_workbook(file)                                     # Открывается книга
+    sh = book.sheet_by_index(0)                                         # Выбирается 1 страница из файла
+    for row_number in range(sh.nrows):                                  # nrow количество строк в листе
+        for col_number in range(sh.ncols):                              # ncols количество столбцов в листе
+            print(sh.cell_value(rowx=row_number, colx=col_number))      # Выводит значение в ячейке по rowx (номер строки) и colx (номер столбца)
 
 
-def do(file):
+def do(file: str):
+    '''
+    Исполняемая функция
+    1. Парсит exel файл
+    2. Проверяет строку
+    '''
     articles = []
     expenses = []
     book = xlrd.open_workbook(file)
     sh = book.sheet_by_index(0)
     for row_number in range(sh.nrows):
-        row = sh.row_values(row_number)
-        right_row = check(row)
+        row = sh.row_values(row_number)  # Возвращает срез значений ячеек в заданой строке
+        right_row = check(row)          #
         if right_row is None:
             continue
         articles.append(right_row[0])
@@ -27,7 +32,7 @@ def do(file):
     print_result(articles, expenses)
 
 
-def check(row):
+def check(row: list):
     if row[1]:
         if row[0] != 'Итого:' and row[1].split()[0].isdigit():
             return row
