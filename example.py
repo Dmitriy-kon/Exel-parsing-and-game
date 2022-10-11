@@ -9,3 +9,5 @@ def parsing(file: str):
     for row_number in range(sh.nrows):                                  # nrow количество строк в листе
         for col_number in range(sh.ncols):                              # ncols количество столбцов в листе
             print(sh.cell_value(rowx=row_number, colx=col_number))      # Выводит значение в ячейке по rowx (номер строки) и colx (номер столбца)
+
+#  sh.row_values(row_number)  # Возвращает срез значений ячеек в заданой строке
